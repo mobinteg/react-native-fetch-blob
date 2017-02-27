@@ -85,6 +85,9 @@ NSMutableDictionary *fileStreams = nil;
         assetURI = [[NSBundle mainBundle] pathForResource: [assetURI stringByDeletingPathExtension]
                                                    ofType: [assetURI pathExtension]];
     }
+    else {
+      assetURI = assetURI.stringByExpandingTildeInPath;
+    }
     return assetURI;
 }
 
@@ -244,11 +247,11 @@ NSMutableDictionary *fileStreams = nil;
                     [asciiArray addObject:[NSNumber numberWithChar:bytePtr[i]]];
                 }
             }
-            
+
             NSDictionary * payload = @{ @"event": FS_EVENT_DATA,  @"detail" : asciiArray };
             [event sendDeviceEventWithName:streamId body:payload];
         }
-        
+
     }
     @catch (NSException * ex)
     {
